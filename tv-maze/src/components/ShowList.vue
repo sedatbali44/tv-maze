@@ -5,20 +5,23 @@
   >
     <h1 class="title">Popular TV Shows</h1>
     <div class="show-grid">
-      <div class="show-card" v-for="show in shows" :key="show.id">
-        <img :src="show.image.medium" :alt="show.name" />
-        <h2 class="show-title">{{ show.name }}</h2>
-        <p class="show-genres">{{ show.genres.join(", ") }}</p>
-        <button class="view-details-button" @click="viewDetails(show.id)">
-          View Details
-        </button>
-      </div>
+      <ShowCard
+        v-for="show in shows"
+        :key="show.id"
+        :show="show"
+        @view-details="viewDetails"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import ShowCard from "@/components/ShowCard.vue";
+
 export default {
+  components: {
+    ShowCard,
+  },
   data() {
     return {
       shows: [],
@@ -26,14 +29,16 @@ export default {
     };
   },
   created() {
-    // Fetching the TV shows from TVMaze API
-    fetch("https://api.tvmaze.com/shows")
-      .then((response) => response.json())
-      .then((data) => {
-        this.shows = data.slice(0, 9); 
-      });
+    this.fetchShows();
   },
   methods: {
+    fetchShows() {
+      fetch("https://api.tvmaze.com/shows")
+        .then((response) => response.json())
+        .then((data) => {
+          this.shows = data.slice(0, 9);
+        });
+    },
     viewDetails(id) {
       this.$router.push(`/show/${id}`);
     },
@@ -76,94 +81,15 @@ body {
   gap: 20px;
 }
 
-.show-card {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  text-align: center;
-  transition: transform 0.3s ease;
-}
-
-.show-card:hover {
-  transform: scale(1.05);
-}
-
-.show-card img {
-  width: 100%;
-  border-radius: 10px;
-}
-
-.show-title {
-  font-family: "Poppins", sans-serif;
-  font-size: 1.6rem;
-  color: #444;
-  text-transform: capitalize;
-}
-
-.show-genres {
-  font-family: "Roboto", sans-serif;
-  font-size: 1rem;
-  color: #666;
-}
-
-.view-details-button {
-  background-color: #ff4081;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-  font-family: "Montserrat", sans-serif;
-  font-weight: bold;
-}
-
-.view-details-button:hover {
-  background-color: #e7326b;
-}
-
-/* Responsive Design */
 @media (max-width: 768px) {
   .show-grid {
-    grid-template-columns: repeat(
-      2,
-      1fr
-    ); 
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .show-title {
-    font-size: 1.4rem;
-  }
-
-  .show-genres {
-    font-size: 0.9rem;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 480px) {
   .show-grid {
     grid-template-columns: 1fr;
-  }
-
-  .title {
-    font-size: 1.5rem;
-  }
-
-  .show-title {
-    font-size: 1.2rem;
-  }
-
-  .show-genres {
-    font-size: 0.8rem;
-  }
-
-  .view-details-button {
-    padding: 8px 16px;
   }
 }
 </style>
