@@ -1,12 +1,17 @@
 <template>
-  <div class="show-list-container">
-    <h1>Popular TV Shows</h1>
+  <div
+    class="show-list-container"
+    :style="{ backgroundColor: backgroundColor }"
+  >
+    <h1 class="title">Popular TV Shows</h1>
     <div class="show-grid">
       <div class="show-card" v-for="show in shows" :key="show.id">
         <img :src="show.image.medium" :alt="show.name" />
-        <h2>{{ show.name }}</h2>
-        <p>{{ show.genres.join(", ") }}</p>
-        <button @click="viewDetails(show.id)">View Details</button>
+        <h2 class="show-title">{{ show.name }}</h2>
+        <p class="show-genres">{{ show.genres.join(", ") }}</p>
+        <button class="view-details-button" @click="viewDetails(show.id)">
+          View Details
+        </button>
       </div>
     </div>
   </div>
@@ -16,7 +21,8 @@
 export default {
   data() {
     return {
-      shows: [], // Will hold the fetched show data
+      shows: [],
+      backgroundColor: "lightblue", // Set the default background color
     };
   },
   created() {
@@ -36,22 +42,38 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;700&family=Roboto:wght@400&family=Montserrat:wght@700&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .show-list-container {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
   text-align: center;
+  border-radius: 10px;
 }
 
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
+.title {
+  font-family: "Playfair Display", serif;
+  font-size: 3rem;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .show-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Creates a 3-column grid */
-  gap: 20px; /* Adds space between grid items */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
 
 .show-card {
@@ -72,18 +94,20 @@ h1 {
   border-radius: 10px;
 }
 
-.show-card h2 {
-  font-size: 1.5rem;
-  margin: 10px 0;
-  color: #333;
+.show-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.8rem;
+  color: #444;
+  text-transform: capitalize;
 }
 
-.show-card p {
-  font-size: 1rem;
-  color: #777;
+.show-genres {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.2rem;
+  color: #666;
 }
 
-button {
+.view-details-button {
   background-color: #ff4081;
   color: white;
   border: none;
@@ -91,9 +115,11 @@ button {
   border-radius: 5px;
   cursor: pointer;
   margin-top: 10px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
 }
 
-button:hover {
+.view-details-button:hover {
   background-color: #e7326b;
 }
 </style>
