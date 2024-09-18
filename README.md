@@ -80,3 +80,9 @@ To get started with the project, follow these steps:
 yarn install
 ```
 
+### Run
+
+```bash
+yarn serve
+```
+
