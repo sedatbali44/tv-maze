@@ -63,7 +63,7 @@ export default {
   cursor: pointer;
   font-family: "Roboto", sans-serif;
   font-weight: bold;
-  z-index: 10; /* Ensure it stays above other content */
+  z-index: 10; 
 }
 
 .back-button:hover {
@@ -72,12 +72,13 @@ export default {
 
 .show-content {
   display: flex;
+  flex-direction: row; 
+  gap: 20px; 
 }
 
 .show-detail-container img {
   width: 400px;
   border-radius: 10px;
-  margin-right: 20px;
 }
 
 .show-info {
@@ -100,5 +101,41 @@ export default {
 
 .show-info strong {
   color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .show-content {
+    flex-direction: column; 
+  }
+
+  .show-detail-container img {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .show-info h1 {
+    font-size: 2rem;
+  }
+
+  .show-info p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .back-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  .show-info h1 {
+    font-size: 1.8rem;
+  }
+
+  .show-info p {
+    font-size: 0.9rem;
+  }
 }
 </style>

@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       shows: [],
-      backgroundColor: "lightblue", // Set the default background color
+      backgroundColor: "lightblue",
     };
   },
   created() {
@@ -30,7 +30,7 @@ export default {
     fetch("https://api.tvmaze.com/shows")
       .then((response) => response.json())
       .then((data) => {
-        this.shows = data.slice(0, 9); // Display only 9 shows for a 3x3 grid
+        this.shows = data.slice(0, 9); 
       });
   },
   methods: {
@@ -64,7 +64,7 @@ body {
 
 .title {
   font-family: "Playfair Display", serif;
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: #333;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -96,14 +96,14 @@ body {
 
 .show-title {
   font-family: "Poppins", sans-serif;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   color: #444;
   text-transform: capitalize;
 }
 
 .show-genres {
   font-family: "Roboto", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #666;
 }
 
@@ -121,5 +121,49 @@ body {
 
 .view-details-button:hover {
   background-color: #e7326b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .show-grid {
+    grid-template-columns: repeat(
+      2,
+      1fr
+    ); 
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .show-title {
+    font-size: 1.4rem;
+  }
+
+  .show-genres {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .show-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .show-title {
+    font-size: 1.2rem;
+  }
+
+  .show-genres {
+    font-size: 0.8rem;
+  }
+
+  .view-details-button {
+    padding: 8px 16px;
+  }
 }
 </style>
