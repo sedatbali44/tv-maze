@@ -2,9 +2,9 @@
  tv-maze application with Vue
 
  #installation 
- #yarn install
+ :yarn install
 
  #run
- #yarn serve 
+ :yarn serve 
 
  
