@@ -79,3 +79,9 @@ To get started with the project, follow these steps:
 ```bash
 yarn install
 ```
+
+### Run
+
+```bash
+yarn serve
+```
