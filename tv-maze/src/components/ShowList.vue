@@ -4,9 +4,16 @@
     :style="{ backgroundColor: backgroundColor }"
   >
     <h1 class="title">Popular TV Shows</h1>
+    <input
+      v-model="searchQuery"
+      class="search-bar"
+      type="text"
+      placeholder="Search TV Shows..."
+    />
+
     <div class="show-grid">
       <ShowCard
-        v-for="show in shows"
+        v-for="show in filteredShows"
         :key="show.id"
         :show="show"
         @view-details="viewDetails"
@@ -16,7 +23,7 @@
 </template>
 
 <script>
-import ShowCard from "@/components/ShowCard.vue";
+import ShowCard from "./ShowCard.vue";
 
 export default {
   components: {
@@ -26,19 +33,24 @@ export default {
     return {
       shows: [],
       backgroundColor: "lightblue",
+      searchQuery: "",
     };
   },
+  computed: {
+    filteredShows() {
+      return this.shows.filter((show) =>
+        show.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    },
+  },
   created() {
-    this.fetchShows();
+    fetch("https://api.tvmaze.com/shows")
+      .then((response) => response.json())
+      .then((data) => {
+        this.shows = data.slice(0, 9);
+      });
   },
   methods: {
-    fetchShows() {
-      fetch("https://api.tvmaze.com/shows")
-        .then((response) => response.json())
-        .then((data) => {
-          this.shows = data.slice(0, 9);
-        });
-    },
     viewDetails(id) {
       this.$router.push(`/show/${id}`);
     },
@@ -47,16 +59,21 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;700&family=Roboto:wght@400&family=Montserrat:wght@700&display=swap");
+.search-bar {
+  padding: 15px;
+  width: 60%; /* Reduced width to 60% for a smaller horizontal size */
+  margin: 20px auto; /* Centered the search bar horizontally */
+  border-radius: 25px;
+  border: 2px solid #ddd;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Roboto", sans-serif;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.search-bar:focus {
+  outline: none;
+  border-color: #ff4081;
+  box-shadow: 0 0 10px rgba(255, 64, 129, 0.5);
 }
 
 .show-list-container {
@@ -73,6 +90,7 @@ body {
   color: #333;
   text-transform: uppercase;
   letter-spacing: 2px;
+  margin-bottom: 20px;
 }
 
 .show-grid {
@@ -85,11 +103,24 @@ body {
   .show-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .title {
+    font-size: 2rem;
+  }
 }
 
 @media (max-width: 480px) {
   .show-grid {
     grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .search-bar {
+    font-size: 1rem;
+    padding: 12px;
   }
 }
 </style>
